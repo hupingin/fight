@@ -1,0 +1,34 @@
+{
+  "level_id": 9,
+  "name": "残响要塞",
+  "subtitle": "ECHO BASTION · BOSS",
+  "brief": "坠毁旗舰的残躯被重新点燃，它的炮火记得每一次败北。",
+  "goal": { "type": "boss", "value": 1 },
+  "enemy_pool": ["viper", "crosswing", "batwing", "hornet"],
+  "spawn_interval": { "start": 1.3, "end": 0.9 },
+  "max_alive": 8,
+  "hp_multiplier": 1.9,
+  "speed_multiplier": 1.25,
+  "estimate": 75.0,
+  "par_score": 30000,
+  "waves": [
+    { "at": 5.0, "enemy": "batwing", "count": 5, "formation": "vee", "gap": 0.2 },
+    { "at": 8.0, "enemy": "crosswing", "count": 3, "formation": "line", "gap": 0.5 }
+  ],
+  "boss_trigger": { "type": "time", "value": 11.0 },
+  "boss": {
+    "name": "骸翼巡航舰 OSSUARY WING",
+    "texture": "res://assets/enemy-02-wraith.svg",
+    "hp": 1500,
+    "scale": 2.0,
+    "score": 9000,
+    "contact_damage": 30,
+    "enter_y": 205.0,
+    "phases": [
+      { "threshold": 1.0, "interval": 1.5, "pattern": "fan5", "bullet": "plasma", "speed": 185, "damage": 14, "move": "sway" },
+      { "threshold": 0.66, "interval": 1.1, "pattern": "spread3", "bullet": "laser", "speed": 245, "damage": 12, "move": "sway_fast" },
+      { "threshold": 0.33, "interval": 0.9, "pattern": "ring", "bullet": "orb", "speed": 175, "damage": 12, "move": "sway_fast" }
+    ]
+  },
+  "background": { "top": "#0a0f1e", "bottom": "#000000", "star": "#9fc0ff" }
+}

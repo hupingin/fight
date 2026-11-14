@@ -1,0 +1,24 @@
+{
+  "level_id": 7,
+  "name": "幻影坟场",
+  "subtitle": "PHANTOM GRAVEYARD · 击落 60 架",
+  "brief": "废弃舰队的幽影仍在游弋，炮台的准星从未冷却。",
+  "goal": { "type": "kills", "value": 60 },
+  "enemy_pool": ["wraith", "saucer", "crosswing", "batwing"],
+  "spawn_interval": { "start": 1.1, "end": 0.55 },
+  "max_alive": 11,
+  "hp_multiplier": 1.8,
+  "speed_multiplier": 1.2,
+  "estimate": 110.0,
+  "par_score": 22000,
+  "waves": [
+    { "at": 10.0, "enemy": "wraith", "count": 2, "formation": "line", "gap": 1.0 },
+    { "at": 24.0, "enemy": "batwing", "count": 5, "formation": "vee", "gap": 0.22 },
+    { "at": 40.0, "enemy": "saucer", "count": 2, "formation": "line", "gap": 0.9 },
+    { "at": 56.0, "enemy": "wraith", "count": 3, "formation": "line", "gap": 0.8 },
+    { "at": 72.0, "enemy": "crosswing", "count": 4, "formation": "vee", "gap": 0.4 },
+    { "at": 90.0, "enemy": "saucer", "count": 3, "formation": "line", "gap": 0.7 }
+  ],
+  "boss": null,
+  "background": { "top": "#052026", "bottom": "#000000", "star": "#6ff0e8" }
+}

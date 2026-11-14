@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24" role="img" aria-label="Enemy plasma pod, 16x24, pointing down">
+  <defs>
+    <radialGradient id="pod" cx=".45" cy=".35" r=".7">
+      <stop offset="0" stop-color="#f4ffd0"/>
+      <stop offset=".4" stop-color="#a8e83c"/>
+      <stop offset="1" stop-color="#2f6b12"/>
+    </radialGradient>
+    <linearGradient id="podcore" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#8ef03a"/>
+    </linearGradient>
+  </defs>
+  <path d="M8 23 C5 19.5 3 14.5 3 9.5 C3 4.5 5 1 8 1 C11 1 13 4.5 13 9.5 C13 14.5 11 19.5 8 23 Z" fill="#a8e83c" opacity=".28"/>
+  <path d="M8 21.4 C5.6 18.4 4 14.2 4 9.8 C4 5.6 5.7 2.4 8 2.4 C10.3 2.4 12 5.6 12 9.8 C12 14.2 10.4 18.4 8 21.4 Z" fill="url(#pod)" stroke="#1d420a" stroke-width=".9"/>
+  <ellipse cx="8" cy="9" rx="3" ry="5.4" fill="url(#podcore)" opacity=".85"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-label="Enemy 02 Wraith: stealth flying wing, nose down">
+  <defs>
+    <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a5a92"/><stop offset="1" stop-color="#241a3d"/></linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ce8ff"/><stop offset="1" stop-color="#233c86"/></linearGradient>
+  </defs>
+  <path d="M50 94 L96 24 L88 14 L72 20 L50 12 L28 20 L12 14 L4 24 Z" fill="url(#wing)" stroke="#1a1030" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M50 94 L86 24 M50 94 L14 24" stroke="#bba9e0" stroke-width="1.5" opacity=".3" fill="none"/>
+  <path d="M18 28 L30 28 L24 38 Z M82 28 L70 28 L76 38 Z" fill="#150d2a"/>
+  <path d="M50 92 L60 30 L50 20 L40 30 Z" fill="#362552" stroke="#1a1030" stroke-width="1.2" stroke-linejoin="round"/>
+  <rect x="46" y="18" width="8" height="3" rx="1.5" fill="#150d2a"/>
+  <path d="M50 40 L56 52 L50 62 L44 52 Z" fill="url(#glass)" stroke="#1a1030" stroke-width="1.2"/>
+  <path d="M50 78 L54 86 L50 94 L46 86 Z" fill="#ff3b52"/>
+</svg>

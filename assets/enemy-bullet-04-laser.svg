@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="30" viewBox="0 0 8 30" role="img" aria-label="Enemy laser beam, 8x30, pointing down">
+  <defs>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a3c" stop-opacity="0"/>
+      <stop offset=".25" stop-color="#ff6a2a"/>
+      <stop offset=".62" stop-color="#ff3b52"/>
+      <stop offset="1" stop-color="#ffd35c"/>
+    </linearGradient>
+  </defs>
+  <path d="M4 30 L7.6 23 L7.6 5 L4 0 L.4 5 L.4 23 Z" fill="#ff5a2a" opacity=".3"/>
+  <path d="M4 28 L6.3 22 L6.3 6 L4 2 L1.7 6 L1.7 22 Z" fill="url(#beam)"/>
+  <rect x="3.1" y="4" width="1.8" height="22" fill="#ffe8b0" opacity=".9"/>
+</svg>

@@ -1,0 +1,23 @@
+{
+  "level_id": 2,
+  "name": "陨石带",
+  "subtitle": "ASTEROID BELT · 坚守 60 秒",
+  "brief": "穿过陨石带的护航舰队正在合围，坚持 60 秒等待支援。",
+  "goal": { "type": "survive", "value": 60 },
+  "enemy_pool": ["viper", "hornet", "dart", "saucer"],
+  "spawn_interval": { "start": 1.5, "end": 0.62 },
+  "max_alive": 9,
+  "hp_multiplier": 1.15,
+  "speed_multiplier": 1.05,
+  "estimate": 60.0,
+  "par_score": 6000,
+  "waves": [
+    { "at": 10.0, "enemy": "dart", "count": 3, "formation": "column", "gap": 0.35 },
+    { "at": 22.0, "enemy": "viper", "count": 6, "formation": "line", "gap": 0.18 },
+    { "at": 34.0, "enemy": "saucer", "count": 2, "formation": "line", "gap": 0.9 },
+    { "at": 46.0, "enemy": "dart", "count": 5, "formation": "vee", "gap": 0.22 },
+    { "at": 52.0, "enemy": "hornet", "count": 8, "formation": "line", "gap": 0.14 }
+  ],
+  "boss": null,
+  "background": { "top": "#160a14", "bottom": "#000000", "star": "#ff9ab0" }
+}

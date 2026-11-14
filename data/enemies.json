@@ -1,0 +1,112 @@
+{
+  "prop": {
+    "name": "螺旋桨战机",
+    "texture": "res://assets/enemy-10-prop.svg",
+    "hp": 3,
+    "speed": 85,
+    "score": 60,
+    "scale": 0.5,
+    "movement": "straight",
+    "params": {},
+    "fire": { "type": "none" }
+  },
+  "viper": {
+    "name": "毒蛇拦截机",
+    "texture": "res://assets/enemy-01-viper.svg",
+    "hp": 4,
+    "speed": 132,
+    "score": 100,
+    "scale": 0.5,
+    "movement": "straight",
+    "params": {},
+    "fire": { "type": "none" }
+  },
+  "hornet": {
+    "name": "蜂群侦察机",
+    "texture": "res://assets/enemy-09-hornet.svg",
+    "hp": 3,
+    "speed": 175,
+    "score": 80,
+    "scale": 0.38,
+    "movement": "sine",
+    "params": { "amplitude": 62, "frequency": 2.4 },
+    "fire": { "type": "straight", "interval": 2.3, "bullet": "needle", "speed": 250, "damage": 10 }
+  },
+  "dart": {
+    "name": "穿刺箭",
+    "texture": "res://assets/enemy-07-dart.svg",
+    "hp": 3,
+    "speed": 290,
+    "score": 120,
+    "scale": 0.42,
+    "movement": "dive",
+    "params": { "accel": 120 },
+    "fire": { "type": "none" }
+  },
+  "batwing": {
+    "name": "蝠翼异形",
+    "texture": "res://assets/enemy-05-batwing.svg",
+    "hp": 6,
+    "speed": 205,
+    "score": 180,
+    "scale": 0.46,
+    "movement": "zigzag",
+    "params": { "period": 1.1, "amplitude": 95 },
+    "fire": { "type": "none" }
+  },
+  "crosswing": {
+    "name": "交叉翼精英",
+    "texture": "res://assets/enemy-08-crosswing.svg",
+    "hp": 10,
+    "speed": 150,
+    "score": 400,
+    "scale": 0.5,
+    "movement": "sine",
+    "params": { "amplitude": 105, "frequency": 1.5 },
+    "fire": { "type": "aimed", "interval": 1.9, "bullet": "shard", "speed": 235, "damage": 12 }
+  },
+  "wraith": {
+    "name": "幽影轰炸机",
+    "texture": "res://assets/enemy-02-wraith.svg",
+    "hp": 9,
+    "speed": 82,
+    "score": 250,
+    "scale": 0.56,
+    "movement": "hover",
+    "params": { "hover_y": 210, "hover_time": 4.5 },
+    "fire": { "type": "aimed", "interval": 2.5, "bullet": "orb", "speed": 200, "damage": 12 }
+  },
+  "twinfang": {
+    "name": "双牙火力机",
+    "texture": "res://assets/enemy-03-twinfang.svg",
+    "hp": 12,
+    "speed": 68,
+    "score": 300,
+    "scale": 0.52,
+    "movement": "straight",
+    "params": {},
+    "fire": { "type": "twin", "interval": 1.7, "bullet": "laser", "speed": 330, "damage": 10, "warn": 0.5 }
+  },
+  "saucer": {
+    "name": "碟形炮台",
+    "texture": "res://assets/enemy-04-saucer.svg",
+    "hp": 14,
+    "speed": 96,
+    "score": 350,
+    "scale": 0.5,
+    "movement": "hover",
+    "params": { "hover_y": 200, "hover_time": 5.5 },
+    "fire": { "type": "spread3", "interval": 2.1, "bullet": "plasma", "speed": 210, "damage": 12 }
+  },
+  "fortress": {
+    "name": "堡垒轰炸机",
+    "texture": "res://assets/enemy-06-fortress.svg",
+    "hp": 34,
+    "speed": 50,
+    "score": 600,
+    "scale": 0.62,
+    "movement": "straight",
+    "params": {},
+    "fire": { "type": "fan5", "interval": 2.6, "bullet": "heavy", "speed": 175, "damage": 15 }
+  }
+}

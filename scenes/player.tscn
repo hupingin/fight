@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/player.gd" id="1_player"]
+[ext_resource type="Texture2D" path="res://assets/game-plane.svg" id="2_plane"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_player"]
+radius = 13.0
+
+[node name="Player" type="Area2D"]
+collision_layer = 1
+collision_mask = 10
+script = ExtResource("1_player")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_plane")
+scale = Vector2(0.55, 0.55)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_player")

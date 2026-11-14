@@ -1,0 +1,50 @@
+{
+  "easy": {
+    "label": "容易",
+    "english": "EASY",
+    "color": "#66e6a8",
+    "brief": "敌机更脆、弹幕更稀，适合热身",
+    "enemy_hp": 0.7,
+    "enemy_speed": 0.85,
+    "spawn_interval": 1.3,
+    "enemy_fire_interval": 1.35,
+    "enemy_bullet_speed": 0.85,
+    "boss_hp": 0.7,
+    "boss_fire_interval": 1.25,
+    "boss_bullet_speed": 0.85,
+    "damage_taken": 0.7,
+    "score": 0.8
+  },
+  "normal": {
+    "label": "中等",
+    "english": "NORMAL",
+    "color": "#54c8ff",
+    "brief": "标准强度，设计基准体验",
+    "enemy_hp": 1.0,
+    "enemy_speed": 1.0,
+    "spawn_interval": 1.0,
+    "enemy_fire_interval": 1.0,
+    "enemy_bullet_speed": 1.0,
+    "boss_hp": 1.0,
+    "boss_fire_interval": 1.0,
+    "boss_bullet_speed": 1.0,
+    "damage_taken": 1.0,
+    "score": 1.0
+  },
+  "hard": {
+    "label": "困难",
+    "english": "HARD",
+    "color": "#ff8b95",
+    "brief": "敌机更硬、弹幕更密，得分加成 25%",
+    "enemy_hp": 1.45,
+    "enemy_speed": 1.18,
+    "spawn_interval": 0.78,
+    "enemy_fire_interval": 0.75,
+    "enemy_bullet_speed": 1.15,
+    "boss_hp": 1.5,
+    "boss_fire_interval": 0.8,
+    "boss_bullet_speed": 1.2,
+    "damage_taken": 1.25,
+    "score": 1.25
+  }
+}

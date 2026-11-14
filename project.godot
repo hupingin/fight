@@ -1,0 +1,39 @@
+; Engine configuration file.
+; 星际战机 · Star Raider —— 纯本地单机飞行射击
+config_version=5
+
+[application]
+
+config/name="星际战机 Star Raider"
+config/description="纯本地单机飞行射击：4 个关卡、Boss 多阶段、本地 JSON 存档。"
+run/main_scene="res://scenes/main_menu.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://assets/game-plane.svg"
+
+[autoload]
+
+SaveManager="*res://scripts/autoload/save_manager.gd"
+AudioManager="*res://scripts/autoload/audio_manager.gd"
+GameState="*res://scripts/autoload/game_state.gd"
+
+[display]
+
+window/size/viewport_width=540
+window/size/viewport_height=960
+window/size/resizable=true
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[gui]
+
+theme/custom_font="res://assets/ui_font.tres"
+
+[physics]
+
+common/physics_ticks_per_second=60
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

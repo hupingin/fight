@@ -1,0 +1,33 @@
+{
+  "level_id": 4,
+  "name": "赤鸦母舰",
+  "subtitle": "CRIMSON RAVEN · BOSS",
+  "brief": "母舰本体现身，三段形态的火力网将在你面前展开。",
+  "goal": { "type": "boss", "value": 1 },
+  "enemy_pool": ["viper", "hornet", "crosswing"],
+  "spawn_interval": { "start": 1.6, "end": 1.2 },
+  "max_alive": 6,
+  "hp_multiplier": 1.4,
+  "speed_multiplier": 1.15,
+  "estimate": 60.0,
+  "par_score": 20000,
+  "waves": [
+    { "at": 6.0, "enemy": "hornet", "count": 4, "formation": "line", "gap": 0.2 }
+  ],
+  "boss_trigger": { "type": "time", "value": 9.0 },
+  "boss": {
+    "name": "赤鸦母舰 CRIMSON RAVEN",
+    "texture": "res://assets/enemy-06-fortress.svg",
+    "hp": 900,
+    "scale": 1.75,
+    "score": 6000,
+    "contact_damage": 30,
+    "enter_y": 205.0,
+    "phases": [
+      { "threshold": 1.0, "interval": 1.7, "pattern": "fan5", "bullet": "heavy", "speed": 175, "damage": 14, "move": "sway" },
+      { "threshold": 0.66, "interval": 1.25, "pattern": "spread3", "bullet": "orb", "speed": 235, "damage": 12, "move": "sway_fast" },
+      { "threshold": 0.33, "interval": 0.95, "pattern": "ring", "bullet": "shard", "speed": 165, "damage": 12, "move": "sway_fast" }
+    ]
+  },
+  "background": { "top": "#1a0509", "bottom": "#000000", "star": "#ff7b88" }
+}

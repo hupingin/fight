@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="30" viewBox="0 0 14 30" role="img" aria-label="Player micro missile, 14x30, pointing up">
+  <defs>
+    <linearGradient id="hull" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5f87b8"/>
+      <stop offset=".45" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#5f87b8"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff3b0"/>
+      <stop offset="1" stop-color="#ff6a00"/>
+    </linearGradient>
+  </defs>
+  <path d="M5 21 L2 27 L5 26 Z M9 21 L12 27 L9 26 Z" fill="#3f6690" stroke="#26405c" stroke-width=".6"/>
+  <path d="M7 1 C9.6 4.6 10.6 9 10.6 14 L10.6 22 L3.4 22 L3.4 14 C3.4 9 4.4 4.6 7 1 Z" fill="url(#hull)" stroke="#26405c" stroke-width=".8"/>
+  <path d="M7 4.5 L9 12 L9 20 L5 20 L5 12 Z" fill="#c8ecff" opacity=".75"/>
+  <path d="M3.4 22 L7 30 L10.6 22 Z" fill="url(#flame)"/>
+  <path d="M5.4 22 L7 27.5 L8.6 22 Z" fill="#fff8d0"/>
+</svg>

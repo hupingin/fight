@@ -1,0 +1,24 @@
+{
+  "level_id": 6,
+  "name": "火线穿插",
+  "subtitle": "CROSSFIRE RUN · 坚守 75 秒",
+  "brief": "穿插进敌方火力走廊，坚持 75 秒撕开包围圈。",
+  "goal": { "type": "survive", "value": 75 },
+  "enemy_pool": ["dart", "crosswing", "hornet", "twinfang"],
+  "spawn_interval": { "start": 1.1, "end": 0.55 },
+  "max_alive": 10,
+  "hp_multiplier": 1.6,
+  "speed_multiplier": 1.2,
+  "estimate": 75.0,
+  "par_score": 18000,
+  "waves": [
+    { "at": 8.0, "enemy": "dart", "count": 4, "formation": "column", "gap": 0.3 },
+    { "at": 20.0, "enemy": "twinfang", "count": 2, "formation": "line", "gap": 1.0 },
+    { "at": 32.0, "enemy": "crosswing", "count": 3, "formation": "vee", "gap": 0.5 },
+    { "at": 44.0, "enemy": "dart", "count": 6, "formation": "column", "gap": 0.26 },
+    { "at": 58.0, "enemy": "crosswing", "count": 4, "formation": "line", "gap": 0.45 },
+    { "at": 68.0, "enemy": "hornet", "count": 8, "formation": "line", "gap": 0.13 }
+  ],
+  "boss": null,
+  "background": { "top": "#241305", "bottom": "#000000", "star": "#ffb35c" }
+}

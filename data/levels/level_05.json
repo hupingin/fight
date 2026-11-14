@@ -1,0 +1,24 @@
+{
+  "level_id": 5,
+  "name": "蜂群夜袭",
+  "subtitle": "SWARM RAID · 击落 55 架",
+  "brief": "侦察蜂群倾巢而出，夜色中只有引擎光点可循。",
+  "goal": { "type": "kills", "value": 55 },
+  "enemy_pool": ["hornet", "batwing", "viper", "dart"],
+  "spawn_interval": { "start": 1.2, "end": 0.6 },
+  "max_alive": 10,
+  "hp_multiplier": 1.5,
+  "speed_multiplier": 1.15,
+  "estimate": 100.0,
+  "par_score": 15000,
+  "waves": [
+    { "at": 10.0, "enemy": "hornet", "count": 6, "formation": "line", "gap": 0.16 },
+    { "at": 24.0, "enemy": "dart", "count": 4, "formation": "column", "gap": 0.3 },
+    { "at": 40.0, "enemy": "batwing", "count": 5, "formation": "vee", "gap": 0.24 },
+    { "at": 58.0, "enemy": "hornet", "count": 8, "formation": "line", "gap": 0.14 },
+    { "at": 76.0, "enemy": "dart", "count": 5, "formation": "vee", "gap": 0.2 },
+    { "at": 88.0, "enemy": "batwing", "count": 6, "formation": "column", "gap": 0.22 }
+  ],
+  "boss": null,
+  "background": { "top": "#120a24", "bottom": "#000000", "star": "#b08cff" }
+}

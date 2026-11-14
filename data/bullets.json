@@ -1,0 +1,51 @@
+{
+  "orb": {
+    "name": "能量球",
+    "texture": "res://assets/enemy-bullet-01-orb.svg",
+    "radius": 7,
+    "scale": 1.0,
+    "rotate": false
+  },
+  "shard": {
+    "name": "晶片弹",
+    "texture": "res://assets/enemy-bullet-02-shard.svg",
+    "radius": 7,
+    "scale": 1.0,
+    "rotate": true
+  },
+  "plasma": {
+    "name": "等离子荚",
+    "texture": "res://assets/enemy-bullet-03-plasma.svg",
+    "radius": 8,
+    "scale": 1.0,
+    "rotate": false
+  },
+  "laser": {
+    "name": "激光束",
+    "texture": "res://assets/enemy-bullet-04-laser.svg",
+    "radius": 5,
+    "scale": 1.0,
+    "rotate": false
+  },
+  "heavy": {
+    "name": "重型弹",
+    "texture": "res://assets/enemy-bullet-05-heavy.svg",
+    "radius": 11,
+    "scale": 1.0,
+    "rotate": true
+  },
+  "needle": {
+    "name": "针形弹",
+    "texture": "res://assets/enemy-bullet-06-needle.svg",
+    "radius": 5,
+    "scale": 1.0,
+    "rotate": true
+  },
+  "player_plasma": {
+    "name": "等离子主炮",
+    "texture": "res://assets/player-bullet-01-plasma.svg",
+    "radius": 5,
+    "scale": 1.0,
+    "rotate": false
+  }
+}

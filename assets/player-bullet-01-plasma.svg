@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="28" viewBox="0 0 12 28" role="img" aria-label="Player plasma bolt, 12x28, pointing up">
+  <defs>
+    <radialGradient id="glow" cx=".5" cy=".4" r=".6">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".45" stop-color="#8ff0ff"/>
+      <stop offset="1" stop-color="#1e8fe0"/>
+    </radialGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#5fe0ff"/>
+    </linearGradient>
+  </defs>
+  <path d="M6 1 C9 5 10.5 11 10.5 17 C10.5 23 8.5 27 6 27 C3.5 27 1.5 23 1.5 17 C1.5 11 3 5 6 1 Z" fill="url(#glow)" opacity=".35"/>
+  <path d="M6 3 C8.4 6.4 9.4 11 9.4 16.4 C9.4 21.6 7.9 25 6 25 C4.1 25 2.6 21.6 2.6 16.4 C2.6 11 3.6 6.4 6 3 Z" fill="url(#glow)" stroke="#0d4c7a" stroke-width=".8"/>
+  <path d="M6 5.5 C7.2 8 7.6 11 7.6 15 L7.6 20 L4.4 20 L4.4 15 C4.4 11 4.8 8 6 5.5 Z" fill="url(#core)"/>
+</svg>

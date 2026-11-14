@@ -1,0 +1,25 @@
+{
+  "level_id": 8,
+  "name": "王座前哨",
+  "subtitle": "THRONE OUTPOST · 击落 70 架",
+  "brief": "王座舰队最后的精锐前哨，每一架都是王牌。",
+  "goal": { "type": "kills", "value": 70 },
+  "enemy_pool": ["crosswing", "twinfang", "fortress", "wraith"],
+  "spawn_interval": { "start": 1.0, "end": 0.5 },
+  "max_alive": 12,
+  "hp_multiplier": 2.0,
+  "speed_multiplier": 1.25,
+  "estimate": 120.0,
+  "par_score": 26000,
+  "waves": [
+    { "at": 8.0, "enemy": "crosswing", "count": 3, "formation": "line", "gap": 0.45 },
+    { "at": 20.0, "enemy": "twinfang", "count": 3, "formation": "vee", "gap": 0.7 },
+    { "at": 34.0, "enemy": "fortress", "count": 2, "formation": "line", "gap": 0.9 },
+    { "at": 50.0, "enemy": "wraith", "count": 3, "formation": "line", "gap": 0.7 },
+    { "at": 66.0, "enemy": "crosswing", "count": 5, "formation": "vee", "gap": 0.35 },
+    { "at": 84.0, "enemy": "twinfang", "count": 4, "formation": "line", "gap": 0.55 },
+    { "at": 102.0, "enemy": "fortress", "count": 3, "formation": "line", "gap": 0.8 }
+  ],
+  "boss": null,
+  "background": { "top": "#1c0620", "bottom": "#000000", "star": "#e07bff" }
+}

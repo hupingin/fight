@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-label="Enemy 06 Fortress: four-engine heavy bomber, nose down">
+  <defs>
+    <linearGradient id="hull" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#26333d"/><stop offset=".45" stop-color="#b9c9d2"/><stop offset="1" stop-color="#26333d"/></linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7c8f99"/><stop offset="1" stop-color="#2c3c47"/></linearGradient>
+  </defs>
+  <path d="M42 22 L18 8 L18 16 L40 28 Z M58 22 L82 8 L82 16 L60 28 Z" fill="url(#wing)" stroke="#101a22" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M10 44 L90 44 L96 56 L90 62 L10 62 L4 56 Z" fill="url(#wing)" stroke="#101a22" stroke-width="2.2" stroke-linejoin="round"/>
+  <rect x="14" y="40" width="8" height="18" rx="3" fill="#1d2b34" stroke="#101a22" stroke-width="1.2"/>
+  <rect x="28" y="40" width="8" height="18" rx="3" fill="#1d2b34" stroke="#101a22" stroke-width="1.2"/>
+  <rect x="64" y="40" width="8" height="18" rx="3" fill="#1d2b34" stroke="#101a22" stroke-width="1.2"/>
+  <rect x="78" y="40" width="8" height="18" rx="3" fill="#1d2b34" stroke="#101a22" stroke-width="1.2"/>
+  <circle cx="18" cy="56" r="2.6" fill="#ffb54a"/>
+  <circle cx="32" cy="56" r="2.6" fill="#ffb54a"/>
+  <circle cx="68" cy="56" r="2.6" fill="#ffb54a"/>
+  <circle cx="82" cy="56" r="2.6" fill="#ffb54a"/>
+  <path d="M50 94 C58 90 60 78 60 60 L60 14 C60 8 56 6 50 6 C44 6 40 8 40 14 L40 60 C40 78 42 90 50 94 Z" fill="url(#hull)" stroke="#101a22" stroke-width="1.6"/>
+  <path d="M43 46 L57 46" stroke="#ffd35c" stroke-width="2" opacity=".6"/>
+  <circle cx="50" cy="34" r="5" fill="#1d2b34" stroke="#101a22" stroke-width="1.2"/>
+  <circle cx="50" cy="34" r="2" fill="#ffd35c"/>
+  <path d="M43 72 L50 88 L57 72 Z" fill="#8fd8ff" stroke="#101a22" stroke-width="1.2"/>
+  <circle cx="50" cy="82" r="3.2" fill="#ff3b52"/>
+</svg>

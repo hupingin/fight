@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="22" viewBox="0 0 10 22" role="img" aria-label="Enemy needle round, 10x22, pointing down">
+  <defs>
+    <linearGradient id="needle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8ff6a"/>
+      <stop offset=".6" stop-color="#a3d92a"/>
+      <stop offset="1" stop-color="#eaffb0"/>
+    </linearGradient>
+  </defs>
+  <path d="M5 22 L8.6 12 L8.6 3 L5 .5 L1.4 3 L1.4 12 Z" fill="#c6f54a" opacity=".28"/>
+  <path d="M5 20.8 L7.5 11.8 L7.5 3.6 L5 1.6 L2.5 3.6 L2.5 11.8 Z" fill="url(#needle)" stroke="#22380a" stroke-width=".8" stroke-linejoin="round"/>
+  <path d="M5 4.5 L5 18" stroke="#ffffff" stroke-width="1" opacity=".7"/>
+</svg>

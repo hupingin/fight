@@ -1,0 +1,21 @@
+{
+  "level_id": 1,
+  "name": "试炼空域",
+  "subtitle": "TRIAL SECTOR · 清除侦察编队",
+  "brief": "敌方先遣侦察机正在突入大气层，击落 20 架将其驱逐。",
+  "goal": { "type": "kills", "value": 20 },
+  "enemy_pool": ["prop", "viper", "hornet"],
+  "spawn_interval": { "start": 1.75, "end": 0.85 },
+  "max_alive": 7,
+  "hp_multiplier": 1.0,
+  "speed_multiplier": 1.0,
+  "estimate": 70.0,
+  "par_score": 4000,
+  "waves": [
+    { "at": 12.0, "enemy": "hornet", "count": 5, "formation": "line", "gap": 0.16 },
+    { "at": 28.0, "enemy": "viper", "count": 4, "formation": "vee", "gap": 0.22 },
+    { "at": 44.0, "enemy": "hornet", "count": 6, "formation": "column", "gap": 0.2 }
+  ],
+  "boss": null,
+  "background": { "top": "#08131f", "bottom": "#000000", "star": "#7fc3ff" }
+}

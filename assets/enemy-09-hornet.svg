@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" role="img" aria-label="Enemy 09 Hornet: rounded wasp scout, nose down">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a5300"/><stop offset=".45" stop-color="#ffd35c"/><stop offset="1" stop-color="#8a5300"/></linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5b731"/><stop offset="1" stop-color="#a86a08"/></linearGradient>
+  </defs>
+  <path d="M46 10 L42 3 M54 10 L58 3" stroke="#2a1c00" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M36 44 C24 36 10 38 4 48 C10 60 24 64 36 58 Z M64 44 C76 36 90 38 96 48 C90 60 76 64 64 58 Z" fill="url(#wing)" stroke="#2a1c00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M50 94 C60 90 64 78 64 60 C64 36 58 14 50 8 C42 14 36 36 36 60 C36 78 40 90 50 94 Z" fill="url(#body)" stroke="#2a1c00" stroke-width="2"/>
+  <path d="M38 34 Q50 39 62 34 M37 46 Q50 51 63 46" stroke="#2a1c00" stroke-width="5" opacity=".75" fill="none" stroke-linecap="round"/>
+  <ellipse cx="50" cy="62" rx="9" ry="13" fill="#2a1c00" stroke="#ffd35c" stroke-width="1.2"/>
+  <ellipse cx="47" cy="57" rx="2.5" ry="6" fill="#8fd8ff" opacity=".55"/>
+  <circle cx="50" cy="82" r="3.5" fill="#ff3b52"/>
+  <path d="M46 87 L50 98 L54 87 Z" fill="#ff3b52" stroke="#2a1c00" stroke-width="1.2" stroke-linejoin="round"/>
+</svg>

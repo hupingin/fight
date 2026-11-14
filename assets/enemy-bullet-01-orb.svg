@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="Enemy energy orb, 16x16">
+  <defs>
+    <radialGradient id="orb" cx=".4" cy=".36" r=".68">
+      <stop offset="0" stop-color="#fff6c2"/>
+      <stop offset=".34" stop-color="#ffb03a"/>
+      <stop offset=".72" stop-color="#ff3b52"/>
+      <stop offset="1" stop-color="#8e1020"/>
+    </radialGradient>
+  </defs>
+  <circle cx="8" cy="8" r="7.5" fill="#ff3b52" opacity=".22"/>
+  <circle cx="8" cy="8" r="6" fill="url(#orb)" stroke="#5d0a16" stroke-width=".8"/>
+  <ellipse cx="6" cy="5.2" rx="1.7" ry="1.1" fill="#fffbe6" opacity=".85" transform="rotate(-30 6 5.2)"/>
+</svg>
