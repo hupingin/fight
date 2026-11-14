@@ -115,6 +115,11 @@ data/
 - 物理回调内的碰撞体创建统一走 `call_deferred`，避免引擎 flush 报错
 - `tools/screenshot.gd` 支持 `--scene / --level / --difficulty / --hold / --click / --killall / --god / --wait / --out` 参数，可 headless 复现任意游戏状态并截图，本 README 的截图均由它产出
 
+## 更新日志
+
+- **v1.0.1**：修复带预警激光的敌机被击毁 / 撞毁时，无限循环 Tween 在已释放节点上持续步进导致的「受击后卡死」。
+- **v1.0.0**：首个正式版本，10 关 / 三档难度 / 3 场多阶段 Boss 战。
+
 ## 开源协议
 
 MIT License

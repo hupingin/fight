@@ -14,6 +14,8 @@ var auto_kill := false
 var god_mode := false
 var scroll_y := -1.0
 var click_point := Vector2(-1, -1)
+var hit_amount := 0
+var ram_test := false
 
 
 func _ready() -> void:
@@ -41,6 +43,10 @@ func _ready() -> void:
 			var parts := arg.substr(8).split(",")
 			if parts.size() == 2:
 				click_point = Vector2(float(parts[0]), float(parts[1]))
+		elif arg.begins_with("--hit="):
+			hit_amount = int(arg.substr(6))
+		elif arg == "--ram":
+			ram_test = true
 
 	if level > 0:
 		GameState.start_level(level, difficulty)
@@ -67,6 +73,12 @@ func _ready() -> void:
 	if click_point.x >= 0.0:
 		_click_later()
 
+	if hit_amount > 0:
+		_hit_probe()
+
+	if ram_test:
+		_ram_probe()
+
 	await get_tree().create_timer(wait_time).timeout
 	var image := get_viewport().get_texture().get_image()
 	var err := image.save_png(out_path)
@@ -80,6 +92,50 @@ func _press(key_name: String) -> void:
 	event.keycode = event.physical_keycode
 	event.pressed = true
 	Input.parse_input_event(event)
+
+
+## 自查用：强制玩家受击，并逐秒打印帧推进情况（定位卡死）
+func _hit_probe() -> void:
+	await get_tree().create_timer(1.6).timeout
+	var game := get_tree().get_first_node_in_group("game")
+	if game == null:
+		print("[hit] no game node")
+		return
+	var p: Variant = game.get("player")
+	if p == null or not is_instance_valid(p):
+		print("[hit] no player")
+		return
+	print("[hit] BEFORE hp=%s invincible=%s" % [p.hp, p.invincible])
+	p.take_damage(hit_amount)
+	print("[hit] AFTER hp=%s invincible=%s" % [p.hp, p.invincible])
+	var last_frames := Engine.get_frames_drawn()
+	for i in int(wait_time):
+		await get_tree().create_timer(1.0).timeout
+		var frames := Engine.get_frames_drawn()
+		var hp_text := "dead" if not is_instance_valid(p) else str(p.hp)
+		print("[tick] %d elapsed=%.1f hp=%s frames=%d" % [i, float(game.elapsed), hp_text, frames - last_frames])
+		last_frames = frames
+
+
+## 自查用：让带预警激光的敌机在预警期间撞上玩家，验证受击/撞机清理链路
+func _ram_probe() -> void:
+	await get_tree().create_timer(1.8).timeout
+	var game := get_tree().get_first_node_in_group("game")
+	if game == null:
+		return
+	var p: Variant = game.get("player")
+	if p == null or not is_instance_valid(p):
+		return
+	var enemy: Node = game._spawn_enemy("twinfang", p.global_position + Vector2(0, -160))
+	if enemy == null:
+		return
+	enemy.call("_show_warning", 0.8)
+	print("[ram] warning line active, hp before=%s" % p.hp)
+	await get_tree().create_timer(0.15).timeout
+	if is_instance_valid(enemy):
+		enemy.global_position = p.global_position
+	await get_tree().create_timer(0.4).timeout
+	print("[ram] hp after=%s invincible=%s" % [p.hp, p.invincible])
 
 
 ## 自查用：点击指定屏幕坐标（先等 UI 构建完成）

@@ -19,6 +19,7 @@ var _fire_timer := 1.0
 var _hover_t := 0.0
 var _warned := false
 var _warn_line: Line2D
+var _warn_tween: Tween
 var _dead := false
 
 @onready var sprite: Sprite2D = $Sprite2D
@@ -69,6 +70,7 @@ func _physics_process(delta: float) -> void:
 	_t += delta
 	_move(delta)
 	if position.y > 1030.0:
+		_clear_warning()
 		queue_free()
 		return
 	_update_fire(delta)
@@ -109,6 +111,8 @@ func _move(delta: float) -> void:
 
 
 func _update_fire(delta: float) -> void:
+	if _dead:
+		return
 	var fire_type := str(fire.get("type", "none"))
 	if fire_type == "none":
 		return
@@ -167,7 +171,7 @@ func _shoot(fire_type: String) -> void:
 
 
 func _show_warning(duration: float) -> void:
-	if _warn_line != null:
+	if _warn_line != null or _dead:
 		return
 	var line := Line2D.new()
 	line.width = 2.0
@@ -177,13 +181,20 @@ func _show_warning(duration: float) -> void:
 	line.z_index = -1
 	add_child(line)
 	_warn_line = line
-	var tween := create_tween().set_loops()
-	tween.tween_property(line, "modulate:a", 0.12, duration * 0.5)
-	tween.tween_property(line, "modulate:a", 1.0, duration * 0.5)
+	# 只用一次有限时长的呼吸动画，绝不使用 set_loops()：
+	# 无限循环 tween 在预警线/敌机被释放后仍会步进，引擎会持续报
+	# "Infinite loop detected" 并拖垮主线程（表现为受击/撞机后卡死）。
+	_warn_tween = create_tween()
+	_warn_tween.tween_property(line, "modulate:a", 0.12, duration * 0.5)
+	_warn_tween.tween_property(line, "modulate:a", 1.0, duration * 0.5)
 	AudioManager.play("warn", 1.5, -16.0)
 
 
 func _clear_warning() -> void:
+	# 先杀 tween，再释放线：顺序反了会让 tween 在已释放节点上继续步进
+	if _warn_tween != null and _warn_tween.is_valid():
+		_warn_tween.kill()
+	_warn_tween = null
 	if _warn_line != null and is_instance_valid(_warn_line):
 		_warn_line.queue_free()
 	_warn_line = null
@@ -206,6 +217,7 @@ func die(give_score: bool) -> void:
 	if _dead:
 		return
 	_dead = true
+	_clear_warning()
 	set_deferred("monitoring", false)
 	var game := get_tree().get_first_node_in_group("game")
 	var blast := 24.0 + sprite_scale * 44.0
@@ -222,6 +234,7 @@ func destroy_by_ram() -> void:
 	if _dead:
 		return
 	_dead = true
+	_clear_warning()
 	set_deferred("monitoring", false)
 	var game := get_tree().get_first_node_in_group("game")
 	if game != null:

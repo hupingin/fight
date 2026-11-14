@@ -5,7 +5,7 @@ config_version=5
 [application]
 
 config/name="星际战机 Star Raider"
-config/version="1.0.0"
+config/version="1.0.1"
 config/description="纯本地单机飞行射击：10 个关卡、三档难度、Boss 多阶段、本地 JSON 存档。"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
