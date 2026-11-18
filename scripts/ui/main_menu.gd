@@ -1,4 +1,4 @@
-## 主菜单：开始 / 选关 / 设置（音量、开关、重置存档）
+## 主菜单：开始 / 选关 / 设置（音量、开关、语言、重置存档）
 extends Control
 
 const SPACE_BG := preload("res://scripts/fx/space_bg.gd")
@@ -6,6 +6,7 @@ const SPACE_BG := preload("res://scripts/fx/space_bg.gd")
 var _settings_box: Control
 var _hi_label: Label
 var _footer: Label
+var _diff_label: Label
 var _stats_label: Label
 var _reset_dialog: ConfirmationDialog
 
@@ -14,6 +15,9 @@ func _ready() -> void:
 	get_tree().paused = false
 	AudioManager.start_bgm()
 	_build()
+	if GameState.reopen_settings:
+		GameState.reopen_settings = false
+		_on_settings()
 
 
 func _build() -> void:
@@ -36,13 +40,13 @@ func _build() -> void:
 	float_tween.tween_property(ship, "position:y", 140.0, 2.2).set_trans(Tween.TRANS_SINE)
 	float_tween.tween_property(ship, "position:y", 128.0, 2.2).set_trans(Tween.TRANS_SINE)
 
-	var title := UIKit.glow_label("星 际 战 机", 50, UIKit.CYAN)
+	var title := UIKit.glow_label(I18n.t("app.title"), _scaled_title_size(), UIKit.CYAN)
 	title.position = Vector2(0, 268)
 	title.size = Vector2(540, 64)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(title)
 
-	var en := UIKit.label("S T A R   R A I D E R", 12, UIKit.MUTED)
+	var en := UIKit.label(I18n.t("app.subtitle"), 12, UIKit.MUTED)
 	en.position = Vector2(0, 336)
 	en.size = Vector2(540, 20)
 	en.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -52,17 +56,17 @@ func _build() -> void:
 	line.position = Vector2(150, 372)
 	add_child(line)
 
-	var tagline := UIKit.label("纯本地单机 · 10 关挑战 · 三档难度", 12, UIKit.DIM)
+	var tagline := UIKit.label(I18n.t("app.tagline", [LevelData.level_count()]), 12, UIKit.DIM)
 	tagline.position = Vector2(0, 386)
 	tagline.size = Vector2(540, 20)
 	tagline.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(tagline)
 
 	var buttons := [
-		["开始游戏", UIKit.CYAN, _on_start],
-		["选择关卡", UIKit.BLUE, _on_levels],
-		["设置", UIKit.MUTED, _on_settings],
-		["退出游戏", Color("#ff8b95"), _on_quit],
+		[I18n.t("menu.start"), UIKit.CYAN, _on_start],
+		[I18n.t("menu.levels"), UIKit.BLUE, _on_levels],
+		[I18n.t("menu.settings"), UIKit.MUTED, _on_settings],
+		[I18n.t("menu.quit"), Color("#ff8b95"), _on_quit],
 	]
 	var y := 452.0
 	for item in buttons:
@@ -73,7 +77,8 @@ func _build() -> void:
 		add_child(button)
 		y += 68.0
 
-	_hi_label = UIKit.label("历史最高分  " + UIKit.format_score(SaveManager.high_score()), 13, UIKit.AMBER)
+	_hi_label = UIKit.label(I18n.t("app.hi_score") + "  " + UIKit.format_score(SaveManager.high_score()),
+		13, UIKit.AMBER)
 	_hi_label.position = Vector2(0, 744)
 	_hi_label.size = Vector2(540, 20)
 	_hi_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -82,18 +87,30 @@ func _build() -> void:
 	var diff_id := str(SaveManager.setting("last_difficulty", LevelData.DEFAULT_DIFFICULTY))
 	if not LevelData.is_difficulty(diff_id):
 		diff_id = LevelData.DEFAULT_DIFFICULTY
-	var diff_label := UIKit.label("当前难度  %s  ·  可在选关界面切换" % LevelData.difficulty_label(diff_id),
+	_diff_label = UIKit.label(I18n.t("app.current_difficulty", [LevelData.difficulty_label(diff_id)]),
 		12, LevelData.difficulty_color(diff_id))
-	diff_label.position = Vector2(0, 768)
-	diff_label.size = Vector2(540, 20)
-	diff_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	add_child(diff_label)
+	_diff_label.position = Vector2(0, 768)
+	_diff_label.size = Vector2(540, 20)
+	_diff_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	add_child(_diff_label)
 
-	_footer = UIKit.label("v1.0  ·  存档 user://save_data.json", 11, UIKit.DIM)
+	_footer = UIKit.label("v1.0.2  ·  " + I18n.t("app.save_file"), 11, UIKit.DIM)
 	_footer.position = Vector2(0, 906)
 	_footer.size = Vector2(540, 18)
 	_footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_footer)
+
+
+## 长标题（俄/德等）自动缩小字号，避免换行或溢出。
+func _scaled_title_size() -> int:
+	var length := I18n.t("app.title").length()
+	if length <= 8:
+		return 50
+	if length <= 14:
+		return 40
+	if length <= 22:
+		return 33
+	return 27
 
 
 # ---------------------------------------------------------------- 入口按钮
@@ -125,70 +142,111 @@ func _on_settings() -> void:
 	_set_chrome_visible(false)
 
 	var panel := UIKit.panel(UIKit.CYAN, Color(0.025, 0.055, 0.075, 0.98))
-	panel.position = Vector2(50, 196)
-	panel.size = Vector2(440, 556)
+	panel.position = Vector2(50, 186)
+	panel.size = Vector2(440, 576)
 	_settings_box.add_child(panel)
 
-	var title := UIKit.glow_label("设  置", 26, UIKit.CYAN)
-	title.position = Vector2(0, 22)
+	var title := UIKit.glow_label(I18n.t("settings.title"), 26, UIKit.CYAN)
+	title.position = Vector2(0, 14)
 	title.size = Vector2(440, 34)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(title)
 
 	var bgm_value := UIKit.label("", 13, UIKit.CYAN)
-	bgm_value.position = Vector2(316, 92)
+	bgm_value.position = Vector2(316, 82)
 	bgm_value.size = Vector2(90, 20)
 	bgm_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	panel.add_child(bgm_value)
-	_build_slider_row(panel, "背景音乐", 74, float(SaveManager.setting("bgm_volume", 0.5)), bgm_value, "bgm_volume")
+	_build_slider_row(panel, I18n.t("settings.bgm"), 64, float(SaveManager.setting("bgm_volume", 0.5)), bgm_value, "bgm_volume")
 
 	var sfx_value := UIKit.label("", 13, UIKit.CYAN)
-	sfx_value.position = Vector2(316, 152)
+	sfx_value.position = Vector2(316, 142)
 	sfx_value.size = Vector2(90, 20)
 	sfx_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	panel.add_child(sfx_value)
-	_build_slider_row(panel, "音效音量", 134, float(SaveManager.setting("sfx_volume", 0.85)), sfx_value, "sfx_volume")
+	_build_slider_row(panel, I18n.t("settings.sfx"), 124, float(SaveManager.setting("sfx_volume", 0.85)), sfx_value, "sfx_volume")
 
-	var sfx_toggle := UIKit.checkbox("音效开关")
-	sfx_toggle.position = Vector2(34, 192)
+	var sfx_toggle := UIKit.checkbox(I18n.t("settings.sfx_toggle"))
+	sfx_toggle.position = Vector2(34, 180)
 	sfx_toggle.button_pressed = bool(SaveManager.setting("sfx_enabled", true))
 	sfx_toggle.toggled.connect(func(on: bool): SaveManager.set_setting("sfx_enabled", on))
 	panel.add_child(sfx_toggle)
 
-	var shake_toggle := UIKit.checkbox("屏幕震动")
-	shake_toggle.position = Vector2(34, 232)
+	var shake_toggle := UIKit.checkbox(I18n.t("settings.shake"))
+	shake_toggle.position = Vector2(34, 218)
 	shake_toggle.button_pressed = bool(SaveManager.setting("screen_shake", true))
 	shake_toggle.toggled.connect(func(on: bool): SaveManager.set_setting("screen_shake", on))
 	panel.add_child(shake_toggle)
 
+	_build_language_selector(panel)
+
 	var divider := UIKit.separator(372, Color(0.2, 0.42, 0.52, 0.5))
-	divider.position = Vector2(34, 286)
+	divider.position = Vector2(34, 354)
 	panel.add_child(divider)
 
 	var stats: Dictionary = SaveManager.data.get("stats", {})
-	_stats_label = UIKit.label(
-		"累计游玩 %d 次    总击杀 %d" % [int(stats.get("total_plays", 0)), int(stats.get("total_kills", 0))],
-		12, UIKit.MUTED)
-	_stats_label.position = Vector2(34, 302)
+	_stats_label = UIKit.fitted_label(
+		I18n.t("settings.stats", [int(stats.get("total_plays", 0)), int(stats.get("total_kills", 0))]),
+		12, 372.0, UIKit.MUTED)
+	_stats_label.position = Vector2(34, 368)
 	panel.add_child(_stats_label)
 
-	var global_label := UIKit.label("历史最高分 " + UIKit.format_score(SaveManager.high_score()), 12, UIKit.MUTED)
-	global_label.position = Vector2(34, 326)
+	var global_label := UIKit.label(I18n.t("settings.global_hi") + " " + UIKit.format_score(SaveManager.high_score()),
+		12, UIKit.MUTED)
+	global_label.position = Vector2(34, 392)
 	panel.add_child(global_label)
 
-	var reset := UIKit.button("重置存档", Vector2(372, 46), UIKit.RED)
-	reset.position = Vector2(34, 380)
+	var reset := UIKit.button(I18n.t("settings.reset"), Vector2(372, 44), UIKit.RED)
+	reset.position = Vector2(34, 434)
 	reset.pressed.connect(_confirm_reset)
 	panel.add_child(reset)
 
-	var close := UIKit.button("关闭", Vector2(372, 46), UIKit.CYAN)
-	close.position = Vector2(34, 440)
+	var close := UIKit.button(I18n.t("settings.close"), Vector2(372, 44), UIKit.CYAN)
+	close.position = Vector2(34, 486)
 	close.pressed.connect(_close_settings)
 	panel.add_child(close)
 
-	var tip := UIKit.label("存档损坏时会自动回退默认值，不会崩溃", 11, UIKit.DIM)
-	tip.position = Vector2(34, 500)
+	var tip := UIKit.fitted_label(I18n.t("settings.tip"), 11, 372.0, UIKit.DIM)
+	tip.position = Vector2(34, 542)
+	tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tip.custom_minimum_size = Vector2(372, 30)
 	panel.add_child(tip)
+	tip.size = Vector2(372, 30)
+
+
+## 六种语言按 3×2 网格排列，选中项用青色描边高亮。
+func _build_language_selector(panel: Control) -> void:
+	var caption := UIKit.label(I18n.t("settings.language"), 13, UIKit.TEXT)
+	caption.position = Vector2(34, 256)
+	panel.add_child(caption)
+
+	var ids: Array = I18n.language_ids()
+	var width := 116.0
+	var height := 30.0
+	var gap := 12.0
+	for i in ids.size():
+		var code := str(ids[i])
+		var selected: bool = code == I18n.locale
+		var color := UIKit.CYAN if selected else UIKit.DIM
+		var button := UIKit.button(I18n.language_name(code), Vector2(width, height), color)
+		button.position = Vector2(34 + float(i % 3) * (width + gap),
+			280 + float(i / 3) * (height + 4))
+		button.add_theme_font_size_override("font_size", 14)
+		if selected:
+			button.add_theme_stylebox_override("normal", UIKit.box(
+				Color(color.r, color.g, color.b, 0.22), color, 2, 4))
+		button.pressed.connect(_on_language_selected.bind(code))
+		panel.add_child(button)
+
+
+func _on_language_selected(code: String) -> void:
+	if code == I18n.locale:
+		return
+	I18n.set_locale(code)
+	AudioManager.play("click", 1.1, -6.0)
+	# 重载主菜单让所有文案立即刷新，并自动重新打开设置面板。
+	GameState.reopen_settings = true
+	get_tree().call_deferred("reload_current_scene")
 
 
 func _build_slider_row(panel: Control, text: String, y: float, value: float, value_label: Label, key: String) -> void:
@@ -213,22 +271,24 @@ func _build_slider_row(panel: Control, text: String, y: float, value: float, val
 func _confirm_reset() -> void:
 	if _reset_dialog == null:
 		_reset_dialog = ConfirmationDialog.new()
-		_reset_dialog.title = "重置存档"
-		_reset_dialog.dialog_text = "将清除最高分、关卡解锁进度与全部统计数据。\n此操作不可撤销，确定继续？"
-		_reset_dialog.ok_button_text = "确认重置"
-		_reset_dialog.cancel_button_text = "取消"
+		_reset_dialog.title = I18n.t("settings.reset")
+		_reset_dialog.dialog_text = I18n.t("settings.reset_body")
+		_reset_dialog.ok_button_text = I18n.t("settings.reset_ok")
+		_reset_dialog.cancel_button_text = I18n.t("settings.cancel")
 		_reset_dialog.confirmed.connect(_do_reset)
 		add_child(_reset_dialog)
 	_reset_dialog.popup_centered()
 
 
 func _do_reset() -> void:
+	var keep_locale := I18n.locale
 	SaveManager.reset()
+	SaveManager.set_setting("language", keep_locale)
 	AudioManager.apply_settings()
 	if _hi_label != null:
-		_hi_label.text = "历史最高分  " + UIKit.format_score(SaveManager.high_score())
+		_hi_label.text = I18n.t("app.hi_score") + "  " + UIKit.format_score(SaveManager.high_score())
 	if _stats_label != null:
-		_stats_label.text = "累计游玩 0 次    总击杀 0"
+		_stats_label.text = I18n.t("settings.stats", [0, 0])
 	AudioManager.play("click", 0.8, -4.0)
 
 
@@ -238,7 +298,7 @@ func _close_settings() -> void:
 		_settings_box = null
 	_set_chrome_visible(true)
 	if _hi_label != null:
-		_hi_label.text = "历史最高分  " + UIKit.format_score(SaveManager.high_score())
+		_hi_label.text = I18n.t("app.hi_score") + "  " + UIKit.format_score(SaveManager.high_score())
 	AudioManager.play("click", 1.1, -6.0)
 
 
@@ -248,6 +308,8 @@ func _set_chrome_visible(on: bool) -> void:
 		_hi_label.visible = on
 	if _footer != null:
 		_footer.visible = on
+	if _diff_label != null:
+		_diff_label.visible = on
 
 
 func _unhandled_input(event: InputEvent) -> void:

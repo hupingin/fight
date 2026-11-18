@@ -9,11 +9,13 @@ var out_path := "user://shot.png"
 var wait_time := 2.0
 var level := 0
 var difficulty := ""
+var lang_code := ""
 var hold_keys: Array = []
 var auto_kill := false
 var god_mode := false
 var scroll_y := -1.0
 var click_point := Vector2(-1, -1)
+var click_point2 := Vector2(-1, -1)
 var hit_amount := 0
 var ram_test := false
 
@@ -30,6 +32,8 @@ func _ready() -> void:
 			level = int(arg.substr(8))
 		elif arg.begins_with("--difficulty="):
 			difficulty = arg.substr(13).strip_edges()
+		elif arg.begins_with("--lang="):
+			lang_code = arg.substr(7).strip_edges()
 		elif arg.begins_with("--hold="):
 			for key in arg.substr(7).split(","):
 				hold_keys.append(key.strip_edges())
@@ -43,10 +47,17 @@ func _ready() -> void:
 			var parts := arg.substr(8).split(",")
 			if parts.size() == 2:
 				click_point = Vector2(float(parts[0]), float(parts[1]))
+		elif arg.begins_with("--click2="):
+			var parts := arg.substr(9).split(",")
+			if parts.size() == 2:
+				click_point2 = Vector2(float(parts[0]), float(parts[1]))
 		elif arg.begins_with("--hit="):
 			hit_amount = int(arg.substr(6))
 		elif arg == "--ram":
 			ram_test = true
+
+	if lang_code != "" and I18n.is_valid_locale(lang_code):
+		I18n.set_locale(lang_code, false)
 
 	if level > 0:
 		GameState.start_level(level, difficulty)
@@ -71,7 +82,9 @@ func _ready() -> void:
 		_apply_scroll()
 
 	if click_point.x >= 0.0:
-		_click_later()
+		_click_later(click_point, 0.6)
+	if click_point2.x >= 0.0:
+		_click_later(click_point2, 1.4)
 
 	if hit_amount > 0:
 		_hit_probe()
@@ -139,18 +152,18 @@ func _ram_probe() -> void:
 
 
 ## 自查用：点击指定屏幕坐标（先等 UI 构建完成）
-func _click_later() -> void:
-	await get_tree().create_timer(0.6).timeout
+func _click_later(point: Vector2, delay: float) -> void:
+	await get_tree().create_timer(delay).timeout
 	var motion := InputEventMouseMotion.new()
-	motion.position = click_point
-	motion.global_position = click_point
+	motion.position = point
+	motion.global_position = point
 	Input.parse_input_event(motion)
 
 	for pressed in [true, false]:
 		var event := InputEventMouseButton.new()
 		event.button_index = MOUSE_BUTTON_LEFT
-		event.position = click_point
-		event.global_position = click_point
+		event.position = point
+		event.global_position = point
 		event.pressed = pressed
 		Input.parse_input_event(event)
 		await get_tree().process_frame

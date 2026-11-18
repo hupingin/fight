@@ -1,12 +1,18 @@
 ; Engine configuration file.
-; 星际战机 · Star Raider —— 纯本地单机飞行射击
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
 config_version=5
 
 [application]
 
 config/name="星际战机 Star Raider"
-config/version="1.0.1"
-config/description="纯本地单机飞行射击：10 个关卡、三档难度、Boss 多阶段、本地 JSON 存档。"
+config/description="纯本地单机飞行射击：10 个关卡、三档难度、Boss 多阶段、六国语言、本地 JSON 存档。"
+config/version="1.0.2"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://assets/game-plane.svg"
@@ -14,6 +20,7 @@ config/icon="res://assets/game-plane.svg"
 [autoload]
 
 SaveManager="*res://scripts/autoload/save_manager.gd"
+I18n="*res://scripts/autoload/i18n.gd"
 AudioManager="*res://scripts/autoload/audio_manager.gd"
 GameState="*res://scripts/autoload/game_state.gd"
 
@@ -21,17 +28,11 @@ GameState="*res://scripts/autoload/game_state.gd"
 
 window/size/viewport_width=540
 window/size/viewport_height=960
-window/size/resizable=true
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [gui]
 
 theme/custom_font="res://assets/ui_font.tres"
-
-[physics]
-
-common/physics_ticks_per_second=60
 
 [rendering]
 

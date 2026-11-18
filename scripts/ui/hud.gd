@@ -145,7 +145,7 @@ func _build_flash() -> void:
 
 
 func _build_hint() -> void:
-	_hint = UIKit.label("方向键 移动     空格 射击     ESC 暂停", 12, UIKit.MUTED)
+	_hint = UIKit.label(I18n.t("hud.hint"), 12, UIKit.MUTED)
 	_hint.position = Vector2(0, H - 42)
 	_hint.size = Vector2(W, 20)
 	_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -245,29 +245,29 @@ func show_pause() -> void:
 	panel.size = Vector2(420, 360)
 	_pause_box.add_child(panel)
 
-	var title := UIKit.glow_label("暂  停", 30, UIKit.CYAN)
+	var title := UIKit.glow_label(I18n.t("hud.pause_title"), 30, UIKit.CYAN)
 	title.position = Vector2(0, 34)
 	title.size = Vector2(420, 40)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(title)
 
-	var tip := UIKit.label("PAUSED · 战斗已冻结", 12, UIKit.MUTED)
+	var tip := UIKit.label(I18n.t("hud.pause_tip"), 12, UIKit.MUTED)
 	tip.position = Vector2(0, 80)
 	tip.size = Vector2(420, 20)
 	tip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(tip)
 
-	var resume := UIKit.button("继续战斗", Vector2(320, 50), UIKit.CYAN)
+	var resume := UIKit.button(I18n.t("hud.resume"), Vector2(320, 50), UIKit.CYAN)
 	resume.position = Vector2(50, 130)
 	resume.pressed.connect(func(): pause_resume.emit())
 	panel.add_child(resume)
 
-	var restart := UIKit.button("重新开始", Vector2(320, 50), UIKit.AMBER)
+	var restart := UIKit.button(I18n.t("hud.restart"), Vector2(320, 50), UIKit.AMBER)
 	restart.position = Vector2(50, 196)
 	restart.pressed.connect(func(): pause_restart.emit())
 	panel.add_child(restart)
 
-	var menu := UIKit.button("返回选关", Vector2(320, 50), UIKit.MUTED)
+	var menu := UIKit.button(I18n.t("hud.back_to_levels"), Vector2(320, 50), UIKit.MUTED)
 	menu.position = Vector2(50, 262)
 	menu.pressed.connect(func(): pause_menu.emit())
 	panel.add_child(menu)
@@ -298,7 +298,7 @@ func show_result(info: Dictionary) -> void:
 	panel.size = Vector2(464, 604)
 	_result_box.add_child(panel)
 
-	var title := UIKit.glow_label("关卡完成" if cleared else "任务失败", 30, accent)
+	var title := UIKit.glow_label(I18n.t("hud.result_clear") if cleared else I18n.t("hud.result_fail"), 30, accent)
 	title.position = Vector2(0, 26)
 	title.size = Vector2(464, 40)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -330,7 +330,7 @@ func show_result(info: Dictionary) -> void:
 	rank_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(rank_caption)
 
-	var score_caption := UIKit.label("本关得分", 12, UIKit.MUTED)
+	var score_caption := UIKit.label(I18n.t("hud.score"), 12, UIKit.MUTED)
 	score_caption.position = Vector2(20, 118)
 	score_caption.size = Vector2(300, 20)
 	panel.add_child(score_caption)
@@ -340,13 +340,13 @@ func show_result(info: Dictionary) -> void:
 	score_label.size = Vector2(320, 52)
 	panel.add_child(score_label)
 
-	var best := UIKit.label("本关最高分  " + UIKit.format_score(int(info.get("best", 0))), 13, UIKit.MUTED)
+	var best := UIKit.label(I18n.t("hud.best") + "  " + UIKit.format_score(int(info.get("best", 0))), 13, UIKit.MUTED)
 	best.position = Vector2(20, 196)
 	best.size = Vector2(320, 20)
 	panel.add_child(best)
 
 	if bool(info.get("new_record", false)):
-		var badge := UIKit.label("★ 新纪录", 12, UIKit.AMBER)
+		var badge := UIKit.label(I18n.t("hud.new_record"), 12, UIKit.AMBER)
 		badge.position = Vector2(20, 220)
 		panel.add_child(badge)
 
@@ -355,9 +355,9 @@ func show_result(info: Dictionary) -> void:
 	panel.add_child(line)
 
 	var rows := [
-		["击杀", str(info.get("kills", 0))],
-		["存活时间", UIKit.format_time(float(info.get("time", 0.0)))],
-		["通关奖励", "+" + UIKit.format_score(int(info.get("bonus", 0)))],
+		[I18n.t("hud.kills"), str(info.get("kills", 0))],
+		[I18n.t("hud.time"), UIKit.format_time(float(info.get("time", 0.0)))],
+		[I18n.t("hud.bonus"), "+" + UIKit.format_score(int(info.get("bonus", 0)))],
 	]
 	for i in rows.size():
 		var label := UIKit.label(str(rows[i][0]), 13, UIKit.MUTED)
@@ -370,22 +370,22 @@ func show_result(info: Dictionary) -> void:
 		panel.add_child(value)
 
 	var buttons_y := 366
-	var retry := UIKit.button("重新挑战", Vector2(400, 52), UIKit.CYAN)
+	var retry := UIKit.button(I18n.t("hud.retry"), Vector2(400, 52), UIKit.CYAN)
 	retry.position = Vector2(32, buttons_y)
 	retry.pressed.connect(func(): retry_pressed.emit())
 	panel.add_child(retry)
 
 	if bool(info.get("can_next", false)):
-		var next := UIKit.button("进入下一关", Vector2(400, 52), UIKit.GREEN)
+		var next := UIKit.button(I18n.t("hud.next"), Vector2(400, 52), UIKit.GREEN)
 		next.position = Vector2(32, buttons_y + 62)
 		next.pressed.connect(func(): next_pressed.emit())
 		panel.add_child(next)
-		var menu := UIKit.button("返回选关", Vector2(400, 46), UIKit.MUTED)
+		var menu := UIKit.button(I18n.t("hud.back_to_levels"), Vector2(400, 46), UIKit.MUTED)
 		menu.position = Vector2(32, buttons_y + 124)
 		menu.pressed.connect(func(): menu_pressed.emit())
 		panel.add_child(menu)
 	else:
-		var menu2 := UIKit.button("返回选关", Vector2(400, 52), UIKit.MUTED)
+		var menu2 := UIKit.button(I18n.t("hud.back_to_levels"), Vector2(400, 52), UIKit.MUTED)
 		menu2.position = Vector2(32, buttons_y + 62)
 		menu2.pressed.connect(func(): menu_pressed.emit())
 		panel.add_child(menu2)

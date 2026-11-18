@@ -4,6 +4,8 @@ extends Node
 var current_level_id: int = 1
 var difficulty: String = LevelData.DEFAULT_DIFFICULTY
 var last_result: Dictionary = {}
+## 语言切换后重载主菜单时，自动重新打开设置面板。
+var reopen_settings: bool = false
 
 
 func start_level(level_id: int, diff: String = "") -> void:

@@ -108,7 +108,7 @@ func _build_hud() -> void:
 	hud.pause_resume.connect(_resume)
 	hud.pause_restart.connect(_on_retry)
 	hud.pause_menu.connect(_to_menu)
-	hud.set_level_text(level_id, str(level.get("name", "")), difficulty)
+	hud.set_level_text(level_id, LevelData.level_name(level_id), difficulty)
 	hud.set_hi(SaveManager.high_score())
 	hud.set_score(0)
 	hud.set_hp(int(player.max_hp), int(player.max_hp))
@@ -116,8 +116,9 @@ func _build_hud() -> void:
 
 
 func _begin() -> void:
-	hud.banner("LV.%02d  %s" % [level_id, str(level.get("name", ""))],
-		"%s · %s" % [str(level.get("subtitle", level.get("brief", ""))), LevelData.difficulty_label(difficulty) + "难度"], 1.9)
+	hud.banner("LV.%02d  %s" % [level_id, LevelData.level_name(level_id)],
+		"%s · %s%s" % [LevelData.level_subtitle(level_id),
+		LevelData.difficulty_label(difficulty), I18n.t("game.difficulty_suffix")], 1.9)
 	hud.fade_hint(6.5)
 	spawn_timer = 1.2
 
@@ -278,14 +279,15 @@ func _spawn_boss(boss_config: Dictionary) -> void:
 	boss.defeated.connect(_on_boss_defeated)
 	boss.phase_changed.connect(_on_boss_phase)
 	enemies_root.add_child(boss)
-	hud.show_boss(str(boss_config.get("name", "BOSS")), float(boss.max_hp))
-	hud.banner("警 告", "母舰接近 · " + str(boss_config.get("name", "")), 1.5)
+	var boss_name := LevelData.boss_name(level_id, str(boss_config.get("name", "BOSS")))
+	hud.show_boss(boss_name, float(boss.max_hp))
+	hud.banner(I18n.t("game.warning"), I18n.t("game.boss_incoming", [boss_name]), 1.5)
 	AudioManager.play("warn", 0.8, -3.0)
 	shake(9.0)
 
 
 func _on_boss_phase(index: int, _total: int) -> void:
-	hud.banner("阶段 %d" % (index + 1), "母舰火力模式切换", 1.1)
+	hud.banner(I18n.t("game.phase", [index + 1]), I18n.t("game.phase_switch"), 1.1)
 
 
 func _on_boss_defeated() -> void:
@@ -293,7 +295,7 @@ func _on_boss_defeated() -> void:
 		return
 	boss_defeated = true
 	hud.hide_boss()
-	hud.banner("母舰击毁", "BOSS DESTROYED", 1.2)
+	hud.banner(I18n.t("game.boss_destroyed"), I18n.t("game.boss_destroyed_sub"), 1.2)
 	await get_tree().create_timer(1.5, false).timeout
 	_complete()
 
@@ -311,7 +313,7 @@ func _on_player_died() -> void:
 	_ending = true
 	state = "over"
 	AudioManager.play("gameover", 0.9)
-	hud.banner("机体损毁", "MISSION FAILED", 1.2)
+	hud.banner(I18n.t("game.ship_lost"), I18n.t("game.ship_lost_sub"), 1.2)
 	await get_tree().create_timer(1.8, false).timeout
 	_finish(false)
 
@@ -392,11 +394,12 @@ func _goal_text() -> String:
 	var goal: Dictionary = level.get("goal", {})
 	match str(goal.get("type", "kills")):
 		"kills":
-			return "目标 · 击落 %d / %d" % [kills, int(goal.get("value", 20))]
+			return I18n.t("game.goal_kills", [kills, int(goal.get("value", 20))])
 		"survive":
-			return "目标 · 生存 %s / %s" % [UIKit.format_time(elapsed), UIKit.format_time(float(goal.get("value", 60)))]
+			return I18n.t("game.goal_survive", [UIKit.format_time(elapsed),
+				UIKit.format_time(float(goal.get("value", 60)))])
 		"boss":
-			return "目标 · 击毁 " + str(level.get("name", "BOSS"))
+			return I18n.t("game.goal_boss", [LevelData.level_name(level_id)])
 	return ""
 
 
@@ -419,7 +422,7 @@ func _complete() -> void:
 	_ending = true
 	state = "over"
 	AudioManager.play("clear", 1.0)
-	hud.banner("关卡完成", "MISSION COMPLETE", 1.1)
+	hud.banner(I18n.t("game.level_complete"), I18n.t("game.level_complete_sub"), 1.1)
 	for bullet in ebullets_root.get_children():
 		if is_instance_valid(bullet):
 			bullet.queue_free()
@@ -449,7 +452,7 @@ func _finish(cleared: bool) -> void:
 	var can_next := cleared and level_id < LevelData.level_count()
 	hud.show_result({
 		"cleared": cleared,
-		"level_name": "LV.%02d  %s · %s" % [level_id, str(level.get("name", "")), LevelData.difficulty_label(difficulty)],
+		"level_name": "LV.%02d  %s · %s" % [level_id, LevelData.level_name(level_id), LevelData.difficulty_label(difficulty)],
 		"score": score,
 		"best": int(info.get("best", 0)),
 		"new_record": bool(info.get("new_record", false)),
@@ -495,7 +498,7 @@ func _on_retry() -> void:
 
 
 func _on_next() -> void:
-	GameState.start_level(level_id + 1)
+	GameState.start_level(level_id + 1, difficulty)
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 

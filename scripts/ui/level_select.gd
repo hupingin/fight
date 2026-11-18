@@ -23,20 +23,20 @@ func _build() -> void:
 	bg.setup("#060f18", "#000000", "#7fc3ff", 1.0)
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
-	var back := UIKit.button("‹ 返回", Vector2(96, 40), UIKit.MUTED)
+	var back := UIKit.button(I18n.t("levels.back"), Vector2(96, 40), UIKit.MUTED)
 	back.position = Vector2(24, 26)
 	back.add_theme_font_size_override("font_size", 15)
 	back.pressed.connect(_go_back)
 	add_child(back)
 
-	var title := UIKit.glow_label("选 择 关 卡", 30, UIKit.CYAN)
+	var title := UIKit.glow_label(I18n.t("levels.title"), _scaled_title_size(), UIKit.CYAN)
 	title.position = Vector2(0, 34)
 	title.size = Vector2(540, 40)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(title)
 
-	var subtitle := UIKit.label("S E L E C T   M I S S I O N", 11, UIKit.MUTED)
+	var subtitle := UIKit.label(I18n.t("levels.subtitle"), 11, UIKit.MUTED)
 	subtitle.position = Vector2(0, 82)
 	subtitle.size = Vector2(540, 18)
 	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -82,23 +82,26 @@ func _build_content() -> void:
 		if bool(SaveManager.level_record(int(lv.get("level_id", 1)), _difficulty).get("cleared", false)):
 			cleared_count += 1
 
-	var progress := UIKit.label("%s难度已通关 %d / %d      已解锁 %d 关" % [
-		LevelData.difficulty_label(_difficulty), cleared_count, levels.size(), mini(unlocked, levels.size())],
-		12, UIKit.MUTED)
+	var progress := UIKit.fitted_label(I18n.t("levels.progress", [
+		LevelData.difficulty_label(_difficulty), cleared_count, levels.size(),
+		mini(unlocked, levels.size())]), 12, 540.0, UIKit.MUTED)
 	progress.position = Vector2(0, 872)
 	progress.size = Vector2(540, 20)
 	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_content.add_child(progress)
 
-	var tip := UIKit.label("通关任意难度即解锁下一关 · 关卡较多时上下滑动浏览", 11, UIKit.DIM)
-	tip.position = Vector2(0, 896)
-	tip.size = Vector2(540, 20)
+	var tip := UIKit.fitted_label(I18n.t("levels.tip"), 11, 540.0, UIKit.DIM)
+	tip.position = Vector2(0, 892)
 	tip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tip.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tip.custom_minimum_size = Vector2(540, 36)
 	_content.add_child(tip)
+	tip.size = Vector2(540, 36)
 
 
 func _build_difficulty_selector() -> void:
-	var caption := UIKit.label("难度", 12, UIKit.DIM)
+	var caption := UIKit.label(I18n.t("levels.difficulty"), 12, UIKit.DIM)
 	caption.position = Vector2(28, 112)
 	caption.size = Vector2(60, 26)
 	caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -163,8 +166,8 @@ func _build_card(parent: Control, level: Dictionary, level_id: int, y: float) ->
 	number.size = Vector2(60, 46)
 	card.add_child(number)
 
-	var name_text := str(level.get("name", "关卡"))
-	var name_label := UIKit.label(name_text, 21, UIKit.TEXT if unlocked else UIKit.DIM)
+	var name_text := LevelData.level_name(level_id)
+	var name_label := UIKit.fitted_label(name_text, 21, 250.0, UIKit.TEXT if unlocked else UIKit.DIM)
 	name_label.position = Vector2(86, 16)
 	card.add_child(name_label)
 
@@ -173,18 +176,18 @@ func _build_card(parent: Control, level: Dictionary, level_id: int, y: float) ->
 	goal_label.position = Vector2(86, 48)
 	card.add_child(goal_label)
 
-	var best_text := "最高分 " + UIKit.format_score(best) if best > 0 else "尚无记录"
+	var best_text := I18n.t("levels.best") + " " + UIKit.format_score(best) if best > 0 else I18n.t("levels.no_record")
 	var best_label := UIKit.label(best_text, 12, UIKit.AMBER if best > 0 else UIKit.DIM)
 	best_label.position = Vector2(86, 72)
 	card.add_child(best_label)
 
-	var status_text := "未解锁"
+	var status_text := I18n.t("levels.locked")
 	var status_color := UIKit.DIM
 	if cleared:
-		status_text = "已通关"
+		status_text = I18n.t("levels.cleared")
 		status_color = UIKit.GREEN
 	elif unlocked:
-		status_text = "已解锁"
+		status_text = I18n.t("levels.unlocked")
 		status_color = diff_color
 	var status := UIKit.label(status_text, 11, status_color)
 	status.position = Vector2(346, 16)
@@ -192,7 +195,8 @@ func _build_card(parent: Control, level: Dictionary, level_id: int, y: float) ->
 	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	card.add_child(status)
 
-	var play := UIKit.button("挑战" if unlocked else "锁定", Vector2(116, 42), accent if unlocked else UIKit.DIM)
+	var play := UIKit.button(I18n.t("levels.play") if unlocked else I18n.t("levels.lock"),
+		Vector2(116, 42), accent if unlocked else UIKit.DIM)
 	play.position = Vector2(350, 54)
 	play.add_theme_font_size_override("font_size", 15)
 	play.disabled = not unlocked
@@ -206,7 +210,7 @@ func _build_card(parent: Control, level: Dictionary, level_id: int, y: float) ->
 
 	if cleared:
 		var star := UIKit.label("★", 14, UIKit.GREEN)
-		star.position = Vector2(196, 18)
+		star.position = Vector2(minf(86.0 + UIKit.measured_width(name_label) + 8.0, 330.0), 18)
 		card.add_child(star)
 
 
@@ -224,12 +228,22 @@ func _goal_desc(level: Dictionary) -> String:
 	var goal: Dictionary = level.get("goal", {})
 	match str(goal.get("type", "kills")):
 		"kills":
-			return "目标：击落 %d 架敌机" % int(goal.get("value", 20))
+			return I18n.t("levels.goal_kills", [int(goal.get("value", 20))])
 		"survive":
-			return "目标：生存 %d 秒" % int(goal.get("value", 60))
+			return I18n.t("levels.goal_survive", [int(goal.get("value", 60))])
 		"boss":
-			return "目标：击败关卡 Boss"
-	return str(level.get("brief", ""))
+			return I18n.t("levels.goal_boss")
+	return LevelData.level_brief(int(level.get("level_id", 1)))
+
+
+## 长标题（俄/德等）自动缩小字号，避免换行或溢出。
+func _scaled_title_size() -> int:
+	var length := I18n.t("levels.title").length()
+	if length <= 12:
+		return 30
+	if length <= 20:
+		return 25
+	return 19
 
 
 func _go_back() -> void:

@@ -24,6 +24,7 @@ func _default_data() -> Dictionary:
 		"unlocked_level": 1,
 		"level_records": {},
 		"settings": {
+			"language": "",
 			"bgm_volume": 0.5,
 			"sfx_volume": 0.85,
 			"sfx_enabled": true,

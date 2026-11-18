@@ -1,7 +1,7 @@
 [gd_resource type="SystemFont" format=3]
 
 [resource]
-font_names = PackedStringArray("Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Source Han Sans SC", "SimHei", "sans-serif")
+font_names = PackedStringArray("Microsoft YaHei UI", "Microsoft YaHei", "Yu Gothic UI", "Meiryo", "MS Gothic", "PingFang SC", "Hiragino Sans", "Noto Sans CJK SC", "Noto Sans CJK JP", "Segoe UI", "Tahoma", "Arial", "sans-serif")
 font_weight = 500
 antialiasing = 1
 subpixel_positioning = 1

@@ -118,7 +118,33 @@ static func difficulty(id: String) -> Dictionary:
 
 
 static func difficulty_label(id: String) -> String:
-	return str(difficulty(id).get("label", id))
+	var fallback := str(difficulty(id).get("label", id))
+	return _localized("difficulty." + id, fallback)
+
+
+# ---------------------------------------------------------------- 多语言
+## 文案缺失时回退 JSON 原文，保证语言包不完整也不会显示成键名。
+static func _localized(key: String, fallback: String) -> String:
+	var text := I18n.t(key)
+	return fallback if text == key else text
+
+
+static func level_name(level_id: int) -> String:
+	return _localized("level.%d.name" % level_id, str(level(level_id).get("name", "")))
+
+
+static func level_subtitle(level_id: int) -> String:
+	var raw: Dictionary = level(level_id)
+	var fallback := str(raw.get("subtitle", raw.get("brief", "")))
+	return _localized("level.%d.subtitle" % level_id, fallback)
+
+
+static func level_brief(level_id: int) -> String:
+	return _localized("level.%d.brief" % level_id, str(level(level_id).get("brief", "")))
+
+
+static func boss_name(level_id: int, fallback: String) -> String:
+	return _localized("level.%d.boss" % level_id, fallback)
 
 
 static func difficulty_color(id: String) -> Color:

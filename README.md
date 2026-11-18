@@ -4,7 +4,8 @@
 
 - 10 个手工调优的关卡，含 3 场多阶段 Boss 战
 - 每关可选 **容易 / 中等 / 困难** 三档难度，记录独立保存
-- 全部关卡、敌人、子弹、难度均为 **JSON 数据驱动**，不写代码即可加关
+- 全部关卡、敌人、子弹、难度、文案均为 **JSON 数据驱动**，不写代码即可加关 / 加语言
+- **6 种界面语言**：简体中文 / English / 日本語 / Français / Deutsch / Русский，设置中即时切换
 - 540×960 竖屏，键盘操作，60 FPS
 
 ## 游戏截图
@@ -16,6 +17,10 @@
 | Boss 战 | 通关结算 |
 |---|---|
 | ![Boss 战](docs/screenshots/boss_fight.png) | ![通关结算](docs/screenshots/clear.png) |
+
+| 英文主菜单 | 日文选关 |
+|---|---|
+| ![英文](docs/screenshots/lang_en.png) | ![日文](docs/screenshots/lang_ja.png) |
 
 ## 操作说明
 
@@ -35,6 +40,22 @@ godot --path .
 ```
 
 或在 Godot 编辑器中「导入」本目录的 `project.godot`，按 F5 运行。首次启动会自动导入资源。
+
+## 多语言
+
+| 语言 | 代码 | 界面示例 |
+|---|---|---|
+| 简体中文 | `zh_CN` | 默认语言（系统区域未知时使用） |
+| English | `en` | 主菜单 / 设置 / HUD / 结算全部英文化 |
+| 日本語 | `ja` | 含假名与汉字，使用系统日文字体回退 |
+| Français | `fr` | — |
+| Deutsch | `de` | — |
+| Русский | `ru` | 使用系统西里尔字体回退，长文案自动缩放换行 |
+
+- **切换方式**：主菜单 → 设置 → 「游戏语言 / Language」，六国语言按 3×2 排列，点击后立即生效并自动重新打开设置面板。
+- **首次启动**按系统区域自动选择；选择结果保存在 `settings.language`，之后一直沿用。
+- **覆盖范围**：主菜单、选关卡片与进度、设置面板、战斗 HUD、关卡横幅、Boss 阶段提示、暂停与结算面板，以及 10 个关卡的名称 / 副标题 / 简介 / Boss 名。
+- **_score 格式、时间格式、RANK 等符号保持通用**；只有可读文案参与翻译。
 
 ## 关卡与难度
 
@@ -72,14 +93,17 @@ data/
 ├── bullets.json        # 子弹定义（贴图、半径、颜色）
 ├── enemies.json        # 10 种敌机（血量、移速、移动模式、开火方式、分值）
 ├── difficulties.json   # 三档难度倍率
+├── i18n.json           # 六国语言全部文案（键集合在六种语言中完全一致）
 └── levels/
-    ├── level_01.json   # 目标、敌人池、刷怪曲线、属性倍率、波次表、背景色调
-    └── ...             # level_02 ~ level_10
+	├── level_01.json   # 目标、敌人池、刷怪曲线、属性倍率、波次表、背景色调
+	└── ...             # level_02 ~ level_10
 ```
 
 **加一关**只需新建 `data/levels/level_11.json`：配置目标（击落数 / 生存时间 / Boss）、敌人池与权重、刷怪间隔曲线、波次表，可选 Boss 多阶段（血量分段 + 每段攻击模式 + 移速）。选关界面、解锁进度、存档会自动识别。
 
 敌机攻击方式包括：直射、扇形散射、追踪弹、预警激光、环形弹幕；移动模式包括直线、蛇形、悬停、折返等，均可在 JSON 中组合。
+
+**加一种语言**只需在 `data/i18n.json` 里新增一个语言段，键名照抄 `zh_CN` 段（共 107 个键），再在 `scripts/autoload/i18n.gd` 的 `LANGUAGE_IDS` / `LANGUAGE_NAMES` 两个常量里追加代码与显示名。关卡文案键为 `level.<id>.name / subtitle / brief / boss`，缺键会自动回退到关卡 JSON 的中文字段，因此翻译可以分批进行。
 
 ## 项目结构
 
@@ -89,7 +113,7 @@ data/
 ├── data/                   # 全部玩法数据（JSON）
 ├── scenes/                 # .tscn 场景（主菜单 / 选关 / 战斗 / HUD / 实体）
 ├── scripts/
-│   ├── autoload/           # SaveManager / AudioManager / GameState
+│   ├── autoload/           # SaveManager / I18n / AudioManager / GameState
 │   ├── entities/           # 玩家、敌机、Boss、子弹
 │   ├── fx/                 # 星空背景、爆炸粒子
 │   ├── ui/                 # HUD、主菜单、选关
@@ -104,7 +128,7 @@ data/
 
 - `unlocked_level`：已解锁关卡
 - `level_records`：按关卡 × 难度分别记录最高分与通关状态
-- `settings`：音乐 / 音效音量、音效开关、屏幕震动开关
+- `settings`：界面语言、音乐 / 音效音量、音效开关、屏幕震动开关、上次选择的难度
 
 存档损坏时自动回退默认值；旧版本存档格式会自动迁移。设置界面提供「重置存档」（二次确认）。
 
@@ -113,10 +137,12 @@ data/
 - **Godot 4.7 / GDScript**，GL Compatibility 渲染管线，低配置机器可流畅运行
 - 全部美术为矢量 SVG，全部音效与 BGM 为**程序合成**的 WAV（仓库内无第三方素材，无版权风险）
 - 物理回调内的碰撞体创建统一走 `call_deferred`，避免引擎 flush 报错
-- `tools/screenshot.gd` 支持 `--scene / --level / --difficulty / --hold / --click / --killall / --god / --wait / --out` 参数，可 headless 复现任意游戏状态并截图，本 README 的截图均由它产出
+- 多语言由 `I18n` Autoload 读取单一 JSON 词库，缺键回退中文；UI 字体配置了中日英俄多套系统字体回退，长文案自动缩放 / 换行
+- `tools/screenshot.gd` 支持 `--scene / --level / --difficulty / --lang / --hold / --click / --click2 / --killall / --god / --wait / --out` 参数，可 headless 复现任意语言与游戏状态并截图，本 README 的截图均由它产出
 
 ## 更新日志
 
+- **v1.0.2**：新增简体中文 / English / 日本語 / Français / Deutsch / Русский 六种界面语言，设置中即时切换并持久化；关卡名称、简介、Boss 名同步本地化；修复「进入下一关」丢失当前难度的问题。
 - **v1.0.1**：修复带预警激光的敌机被击毁 / 撞毁时，无限循环 Tween 在已释放节点上持续步进导致的「受击后卡死」。
 - **v1.0.0**：首个正式版本，10 关 / 三档难度 / 3 场多阶段 Boss 战。
 

@@ -30,6 +30,28 @@ static func label(text: String, font_size: int, color: Color = TEXT) -> Label:
 	return l
 
 
+## 长文案（俄/德等）自动缩小字号，保证不超出指定宽度。
+static func fitted_label(text: String, font_size: int, max_width: float, color: Color = TEXT) -> Label:
+	var l := label(text, font_size, color)
+	var font: Font = l.get_theme_font("font")
+	if font != null:
+		var size := font_size
+		while size > 8:
+			if font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x <= max_width:
+				break
+			size -= 1
+		l.add_theme_font_size_override("font_size", size)
+	return l
+
+
+static func measured_width(l: Label) -> float:
+	var font: Font = l.get_theme_font("font")
+	if font == null:
+		return 0.0
+	return font.get_string_size(l.text, HORIZONTAL_ALIGNMENT_LEFT, -1,
+		l.get_theme_font_size("font_size")).x
+
+
 static func glow_label(text: String, font_size: int, color: Color = CYAN) -> Label:
 	var l := label(text, font_size, color)
 	l.add_theme_color_override("font_outline_color", Color(color.r, color.g, color.b, 0.20))
